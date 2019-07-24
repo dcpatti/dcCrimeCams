@@ -534,7 +534,7 @@ def create_connection(db_file):
     :return: Connection object or None
     """
     try:
-        conn = sqlite3.connect(camexpense.sqlite)
+        conn = sqlite3.connect(camexpense2.sqlite)
         return conn
     except Error as e:
         print(e)
@@ -587,7 +587,7 @@ def dataviz():
 
 @app.route('/datatable')
 def datatable():
-   con = sqlite3.connect("camexpense.sqlite")
+   con = sqlite3.connect("camexpense2.sqlite")
    con.row_factory = sqlite3.Row
    
    cur = con.cursor()
