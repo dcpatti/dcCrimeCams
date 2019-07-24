@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>DC Cameras</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/slick.css">
+    <link rel="stylesheet" type="text/css" href="static/css/slick-theme.css">
+    <script src="static/js/slick.min.js" type="text/javascript" charset="utf-8"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="/welcome">
+                    <img src="static/images/cctv.svg" width="35" height="35" class="d-inline-block align-top" alt="">
+                  </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+            
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                      <a class="nav-link" href="/about">About<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown active">
+                      <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Visualizations<span class="sr-only">(current)</span></a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/dataviz">Data Charts</a>
+                            <a class="dropdown-item" href="/datatable">Data Tables</a>
+                            <a class="dropdown-item" href="/maps">Camera Map Plots</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/api">Get hAPI!</a>
+                      </div>
+                    </li>
+                    <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                  </ul>
+                </div>
+        </nav>
+
+
+
+        <div class="hero text-center">
+
+                <p></p>
+            </div>         
+        
+        
+        <br>
+        
+              <div class="container">
+        
+                <h1>Data Tables</h1>
+        
+              </div>
+        
+              <div class="container">
+                  <div class="row margin-top-50">
+                      <div class="col-md-2">
+                        <aside class="filters">
+                          <div class="panel panel-default">
+                            <div class="panel-heading">Filter Table</i></div>
+                            <div class="panel-body">
+                              <form>
+                                <div class="form-group">
+                                  <ul class="list-group" id="filters">
+                                    <li class="filter list-group-item">
+                                      <!-- <label for="psa">Enter a PSA</label> -->
+                                      <!-- <input class="form-control" id="psa" type="number" placeholder="101"> -->
+                                      <input type="number" id="myPSAInput" onkeyup="myPsaFunction()" placeholder="201" title="Type in a PSA">
+                                    </li>
+                                    <li class="filter list-group-item">
+                                        <!-- <label for="district">Enter a District</label>
+                                        <input class="form-control" id="district" type="text" placeholder="1"> -->
+                                        <input type="number" id="myDisInput" onkeyup="myDistrictFunction()" placeholder="5" title="Type in a District">
+                                    
+                                    </li>
+          
+                                  </ul>
+                                </div>
+                                <hr>
+                                <!-- <button class="btn btn-primary" onclick="sortSpendTable()">Sort by Spending</button> -->
+                                <a href="/datatable" class="btn btn-primary">Reset Table</a>
+                              </form>
+                            </div>
+                          </div>
+                        </aside>
+                      </div>
+                      <div class="col-md-10">
+                        <div id="table-area" class="">
+                        <table id="cam-table" class="table table-striped">
+                        <thead>
+                         <tr>
+                         <th class="table-head">PSA</td>
+                         <th class="table-head">District</td>
+                         <th class="table-head">Vouchercams</td>
+                         <th class="table-head">Rebatecams</td>
+                         <th class="table-head">Total Claims</td>
+                         <th class="table-head">Claims Approved</td>
+                         <th class="table-head">Claims Denied</td>
+                         <th class="table-head">Cameras Placed</td>
+                         <th class="table-head">Total Spending</td>
+                         </tr>
+                        </thead>
+                        <tbody></tbody>
+
+                      <!-- {% for row in rows %}
+                         <tr>
+                            <td>{{row["psa"]}}</td>
+                            <td>{{row["district"]}}</td>
+                            <td>{{row["vouchercams"]}}</td>
+                            <td>{{row['rebatecams']}}</td>
+                            <td>{{row['totalclaims']}}</td>	
+                            <td>{{row['totalapproved']}}</td>	
+                            <td>{{row['totaldecline']}}</td>	
+                            <td>{{row['totalcameras']}}</td>	
+                            <td>{{row['totalspend']}}</td>	
+             
+             
+             
+               
+                         </tr>
+                      {% endfor %} -->
+                   </table>
+                   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.11.0/d3.js"></script>
+                   <script src="static/js/data.js"></script>
+                   <script src="static/js/data_app.js"></script>
+
+                   <script>
+                      function myPsaFunction() {
+                        var input, filter, table, tr, td, i, txtValue;
+                        input = document.getElementById("myPSAInput");
+                        filter = input.value.toUpperCase();
+                        table = document.getElementById("cam-table");
+                        tr = table.getElementsByTagName("tr");
+                        for (i = 0; i < tr.length; i++) {
+                          td = tr[i].getElementsByTagName("td")[0];
+                          if (td) {
+                            txtValue = td.textContent || td.innerText;
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                              tr[i].style.display = "";
+                            } else {
+                              tr[i].style.display = "none";
+                            }
+                          }       
+                        }
+                      }
+
+                      function myDistrictFunction() {
+                        var input, filter, table, tr, td, i, txtValue;
+                        input = document.getElementById("myDisInput");
+                        filter = input.value.toUpperCase();
+                        table = document.getElementById("cam-table");
+                        tr = table.getElementsByTagName("tr");
+                        for (i = 0; i < tr.length; i++) {
+                          td = tr[i].getElementsByTagName("td")[1];
+                          if (td) {
+                            txtValue = td.textContent || td.innerText;
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                              tr[i].style.display = "";
+                            } else {
+                              tr[i].style.display = "none";
+                            }
+                          }       
+                        }
+                      }
+                      
+                      function sortSpendTable() {
+                        var table, rows, switching, i, x, y, shouldSwitch;
+                        table = document.getElementById("cam-table");
+                        switching = true;
+  /*Make a loop that will continue until
+  no switching has been done:*/
+                        while (switching) {
+    //start by saying: no switching is done:
+                          switching = false;
+                          rows = table.rows;
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+                          for (i = 1; i < (rows.length - 1); i++) {
+      //start by saying there should be no switching:
+                            shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+                            x = rows[i].getElementsByTagName("td")[0];
+                            y = rows[i + 1].getElementsByTagName("td")[0];
+      //check if the two rows should switch place:
+                            if (Number(x.innerHTML) > Number(y.innerHTML)) {
+        //if so, mark as a switch and break the loop:
+                              shouldSwitch = true;
+                              break;
+                            }
+                          }
+                        if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+                          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                          switching = true;
+                        }
+                      }
+                    }
+                      
+                      </script>
+
+                   <a href = "/welcome">Go back to the home page</a>
+              </div>
+            </div>
+            </div>
+        </div>
+        </br>
+        <div class="container">
+        <p>Photo by Andy Feliciotti on <a href="https://unsplash.com">Unsplash</a></p>
+        </div> 
+        
+        
+        
+            
+        
+          <div class="container text-center">
+              <hr>
+          <div id="share-bar">
+        
+            <h4>Share this:</h4>
+        
+            <div class="share-buttons">
+                <a  href="https://www.facebook.com/sharer/sharer.php?u=date"
+                    onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
+                    title="Share on Facebook" >
+                    <i class="fa fa-facebook"> </i>
+                </a>
+        
+                <a  href="https://twitter.com/intent/tweet?text=Data Tables&url=/datatable/"
+                    onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
+                    title="Share on Twitter" >
+                    <i class="fa fa-twitter"> </i>
+                </a>
+        
+                <a  href="https://www.pinterest.com/pin/create/button/?url=/datatable/"
+                    onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=900,height=500,toolbar=1,resizable=0'); return false;"
+                    title="Share on Pinterest" >
+                    <i class="fa fa-pinterest"> </i>
+                </a>
+        
+                <a  href="http://www.reddit.com/submit?url=/datatable/"
+                    onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=900,height=500,toolbar=1,resizable=0'); return false;"
+                    title="Share on Reddit" >
+                    <i class="fa fa-reddit"> </i>
+                </a>
+        
+                <a  href="https://www.linkedin.com/shareArticle?mini=true&url=/datatable/&title=Data Tables&summary=&source=DC Cameras"
+                    onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
+                    title="Share on LinkedIn" >
+                    <i class="fa fa-linkedin"> </i>
+                </a>
+        
+                <a  href="mailto:?subject=Data Tables&amp;body=Check out this article, 'Data Tables', at /datatable/"
+                    title="Share via Email" >
+                    <i class="fa fa-envelope"> </i>
+                </a>
+            </div>
+        
+        </div> 
+          <br>
+          </div>
+        
+        
+        
+        <footer class="jumbotron text-center" id="footer">
+        
+            <p>© Copyright Team GELCAP, 2019</p>
+            <p></p>
+            <p><i><a href="https://github.com/leer2022/glowing-gelcap"><i class="fa fa-github fa-2x"></i></a></p>
+            
+        
+        </footer>
+        
+        
+        </body>
+        
+        </html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--  header  -->
+
+
+<head>
+  <title>Data Visualizations</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="../assets/css/fontmont.css" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="static/css/style.css">    
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.1.0/d3-legend.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.3/d3-tip.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+
+</head>
+  <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <!-- <a class="navbar-brand" href="">Home</a> -->
+                <a class="navbar-brand" href="/welcome">
+                    <img src="static/images/cctv.svg" width="35" height="35" class="d-inline-block align-top" alt="">
+                  </a>
+                <!-- img src="/assets/images/dcflag.svg" -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+            
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                      <a class="nav-link" href="/about">About<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown active">
+                      <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Visualizations</a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/datatable">Data Tables</a>
+                            <a class="dropdown-item" href="/dataviz">Data Charts</a>
+                            <a class="dropdown-item" href="/maps">Camera Map Plots</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/api">Get hAPI!</a>
+                      </div>
+                    </li>
+                    <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                  </ul>
+                </div>
+        </nav>
+
+
+
+        <div class="hero2 text-center">
+
+                <p></p>
+              </div>
+            
+              <div class="container">
+            
+                <h1>Data Visualizations</h1>
+            
+              </div>
+              <!-- </div> -->
+              <hr>
+              <div class="container">
+                <h2>Crime Stack Chart</h2>
+            
+            
+            
+            
+                <select id="selDataset" onchange="getData(this.value)">
+                  <option value="/static/crime2016.csv">2016</option>
+                  <option value="/static/crime2017.csv">2017</option>
+                  <option value="/static/crime2018.csv">2018</option>
+            
+                  <!-- when hooked up to server, use these options (route name "/2016" etc):
+                  <option value="/2016">2016</option>
+                  <option value="/2017">2017</option>
+                  <option value="/2018">2018</option> -->
+                </select>
+              </div>
+              <div id="chart">
+              </div>
+              <script>
+                var outerWidth = 960;
+                var outerHeight = 1100;
+                var margin = { left: 130, top: 10, right: 30, bottom: 47 };
+                var barPadding = 0.2;
+            
+                var xColumn = "crime_count";
+                var yColumn = "psa";
+                var colorColumn = "offense";
+                var layerColumn = colorColumn;
+            
+                var hoveredColorValue;
+                var hoveredStrokeColor = "black";
+            
+                var innerWidth = outerWidth - margin.left - margin.right;
+                var innerHeight = outerHeight - margin.top - margin.bottom;
+                // var innerHeight = 1000;
+            
+                var svg = d3.select("#chart").append("svg")
+                  .attr("width", outerWidth)
+                  .attr("height", outerHeight);
+            
+                var g = svg.append("g")
+                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            
+            
+                // This is the layer where the bars are drawn.
+                var baseBarLayer = g.append("g");
+            
+                // This layer contains a semi-transparent overlay
+                // that fades out the base bars.
+                var overlayRect = g.append("g")
+                  .append("rect")
+                  .attr("width", innerWidth)
+                  .attr("height", innerHeight)
+                  .attr("fill", "none")
+                  .style("pointer-events", "none");
+            
+                // This contains the subset of bars rendered on top
+                // when you hover over the entries in the color legend.
+                var foregroundBarLayer = g.append("g");
+            
+                var xAxisG = g.append("g")
+                  .attr("class", "x axis")
+                  .attr("transform", "translate(0," + innerHeight + ")");
+                var yAxisG = g.append("g")
+                  .attr("class", "y axis");
+                var colorLegendG = g.append("g")
+                  .attr("class", "color-legend")
+                  .attr("transform", "translate(650, 0)");
+            
+                var xScale = d3.scale.linear().range([0, innerWidth]);
+                var yScale = d3.scale.ordinal().rangeBands([innerHeight, 0], barPadding);
+                var colorScale = d3.scale.category10();
+                // var colorScale = d3.scale.ordinal();
+                // colorScale.range(["red","purple"]);
+                // var colorScale = d3.scale.linear()
+                //     .domain([0, 1000])
+                //     .range(["rgb(245, 66, 114)", "rgb(245, 66, 114)"]);
+            
+                var tipNumberFormat = d3.format(",");
+                var tip = d3.tip()
+                  .attr("class", "d3-tip")
+                  .offset([-10, 0])
+                  .html(function (d) {
+                    return [
+                      d[colorColumn],
+                      " in ",
+                      d[yColumn],
+                      ": ",
+                      tipNumberFormat(d[xColumn])
+                    ].join("");
+                  });
+                g.call(tip);
+            
+                // Use a modified SI formatter.
+                var siFormat = d3.format("s");
+                var customTickFormat = function (d) {
+                  return siFormat(d);
+                };
+            
+                var xAxis = d3.svg.axis().scale(xScale).orient("bottom")
+                  .ticks(10)
+                  .tickFormat(customTickFormat)
+                  .outerTickSize(0);
+            
+            
+            
+            
+                const xAxisLabelText = 'Total Crime by PSA'
+            
+                var yAxis = d3.svg.axis().scale(yScale).orient("left")
+                  .outerTickSize(0);
+            
+                const yLabel = 'District PSA'
+            
+                var colorLegend = d3.legend.color()
+                  .scale(colorScale)
+                  .shapePadding(6.24)
+                  .shapeWidth(25)
+                  .shapeHeight(25)
+                  .labelOffset(5);
+            
+                // function getData (csv_file){
+                //   d3.csv(csv_file, function(err, crime2016Data) {
+                //     if (err) throw err;
+                //     console.log(crime2016Data);
+            
+                // crime2016Data.forEach(function(data) {
+                // data.psa = data.psa;
+                // data.offense = data.offense;
+                // data.crime_count = +data.crime_count;
+                // });
+            
+            
+            
+            
+            
+                function render(data) {
+            
+                  var nested = d3.nest()
+                    .key(function (d) { return d[layerColumn]; })
+                    .entries(data);
+            
+                  var stack = d3.layout.stack()
+                    .y(function (d) { return d[xColumn]; })
+                    .values(function (d) { return d.values; });
+            
+            
+                  var layers = stack(nested.reverse()).reverse();
+                  // console.log(layers);
+                  console.log(JSON.stringify(data, null, 2));
+            
+                  // var stacked = stack(data);
+            
+                  // d3.select("body").append("pre")
+                  // 	.text(JSON.stringify(stacked, null, 2));
+            
+            
+            
+                  xScale.domain([
+                    0,
+                    d3.max(layers, function (layer) {
+                      return d3.max(layer.values, function (d) {
+                        return d.y0 + d.y
+                        // console.log(d.y0);
+                      });
+                    })
+                  ]);
+            
+                  yScale.domain(layers[0].values.map(function (d) {
+                    console.log(yColumn);
+                    return d[yColumn];
+                  }));
+            
+                  colorScale.domain(layers.map(function (layer) {
+                    return layer.key;
+                  }));
+            
+                  xAxisG.call(xAxis);
+            
+                  xAxisG.append('text')
+                    .attr('class', 'axis-label')
+                    .attr('y', 65)
+                    .attr('x', innerWidth / 3)
+                    .attr('fill', 'black')
+                    .text(xAxisLabelText);
+            
+                  yAxisG.call(yAxis);
+            
+                  yAxisG.append('text')
+                    .attr('class', 'axis-label')
+                    .attr('x', -innerHeight / 2)
+                    .attr('y', -60)
+                    .attr('transform', `rotate(-90)`)
+                    .style('text-anchor', 'middle')
+                    .text(yLabel);
+            
+                  renderBars(baseBarLayer, layers);
+            
+                  if (hoveredColorValue) {
+                    setOverlayTransparency(0.7);
+                    renderBars(foregroundBarLayer, layers.filter(function (layer) {
+                      return layer.key === hoveredColorValue;
+                    }));
+                  } else {
+                    setOverlayTransparency(0.0);
+                    renderBars(foregroundBarLayer, []);
+                  }
+            
+                  colorLegendG.call(colorLegend);
+            
+                  // Move the text down a bit.
+                  colorLegendG.selectAll("text").attr("y", 4);
+            
+                  listenForHover(colorLegendG.selectAll("rect"), data);
+                  listenForHover(colorLegendG.selectAll("text"), data);
+                }
+            
+                function renderBars(g, layers) {
+                  var layerGs = g.selectAll(".layer").data(layers);
+                  layerGs.enter().append("g").attr("class", "layer");
+                  layerGs.exit().remove();
+            
+                  layerGs.style("fill", function (d) {
+                    return colorScale(d.key);
+                  });
+            
+                  var bars = layerGs.selectAll("rect").data(function (d) {
+                    return d.values;
+                  });
+                  bars.enter().append("rect")
+                    .on("mouseover", function (d) {
+                      tip.show(d);
+            
+                      // Fix the issue where the tip goes off the screen.
+                      d3.select(".d3-tip").style("left", "100px");
+                    })
+                    .on("mouseout", tip.hide);
+                  bars.exit().remove();
+                  bars
+                    .attr("x", function (d) { return xScale(d.y0); })
+                    .attr("y", function (d) { return yScale(d[yColumn]); })
+                    .attr("width", function (d) { return xScale(d.y); })
+                    .attr("height", yScale.rangeBand());
+                }
+            
+                function listenForHover(selection, data) {
+                  selection
+                    .on("mouseover", function (d) {
+                      hoveredColorValue = d;
+                      render(data);
+                    })
+                    .on("mouseout", function (d) {
+                      hoveredColorValue = null;
+                      render(data);
+                    })
+                    .style("cursor", "pointer");
+                }
+            
+                function setOverlayTransparency(alpha) {
+                  overlayRect
+                    .transition().duration(400)
+                    .attr("fill", "rgba(255, 255, 255, " + alpha + ")");
+                }
+            
+                function type(d) {
+                  d.crime_count = +d.crime_count;
+            
+                  // Shorten this, as the long label is problematic
+                  if (d.offense === 'ASSAULT W/DANGEROUS WEAPON') {
+                    d.offense = 'ASSAULT W/DW';
+                  }
+            
+                  return d;
+            
+                }
+            
+            
+                // d3.csv("crime2018.csv", type, render);
+            
+            
+            
+                function getData(csv_file) {
+                  d3.csv(csv_file, type, render);
+                  console.log(csv_file);
+            
+                }
+            
+                getData("/static/crime2016.csv")
+            
+            // placeholder for when the server is linked up
+            // function getData(api_route) {
+            //           d3.json(api_route, type, render);
+            //           console.log(api_route);
+            
+            // }
+            // getData("/2016")
+            
+              </script>
+            
+            
+            
+            
+              <div class="container text-center">
+                <hr>
+                <div id="share-bar">
+            
+                  <h4>Share this:</h4>
+            
+                  <div class="share-buttons">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=date"
+                      onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
+                      title="Share on Facebook">
+                      <i class="fa fa-facebook"> </i>
+                    </a>
+            
+                    <a href="https://twitter.com/intent/tweet?text=Data Visualizations&url=/data/"
+                      onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
+                      title="Share on Twitter">
+                      <i class="fa fa-twitter"> </i>
+                    </a>
+            
+                    <a href="https://www.pinterest.com/pin/create/button/?url=/data/"
+                      onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=900,height=500,toolbar=1,resizable=0'); return false;"
+                      title="Share on Pinterest">
+                      <i class="fa fa-pinterest"> </i>
+                    </a>
+            
+                    <a href="http://www.reddit.com/submit?url=/data/"
+                      onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=900,height=500,toolbar=1,resizable=0'); return false;"
+                      title="Share on Reddit">
+                      <i class="fa fa-reddit"> </i>
+                    </a>
+            
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&url=/data/&title=Data Visualizations&summary=&source=DC Cameras"
+                      onclick="window.open(this.href, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
+                      title="Share on LinkedIn">
+                      <i class="fa fa-linkedin"> </i>
+                    </a>
+            
+                    <a href="mailto:?subject=Data Visualizations&amp;body=Check out this article, 'Data Visualizations', at /data/"
+                      title="Share via Email">
+                      <i class="fa fa-envelope"> </i>
+                    </a>
+                  </div>
+            
+                </div>
+                <br>
+              </div>
+            
+            
+            
+              <footer class="jumbotron text-center" id="footer">
+            
+                <p>© Copyright Team GELCAP, 2019</p>
+                <p></p>
+                <p><i><a href="https://github.com/leer2022/glowing-gelcap"><i class="fa fa-github fa-2x"></i></a></p>
+            
+              </footer>
+            
+            
+            </body>
+            
+            </html>

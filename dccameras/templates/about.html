@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>DC Cameras</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/slick.css">
+    <link rel="stylesheet" type="text/css" href="static/css/slick-theme.css">
+    <script src="static/js/slick.min.js" type="text/javascript" charset="utf-8"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="/welcome">
+                    <img src="static/images/cctv.svg" width="35" height="35" class="d-inline-block align-top" alt="">
+                  </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+            
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                      <a class="nav-link" href="/about">About<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown active">
+                      <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Visualizations<span class="sr-only">(current)</span></a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/dataviz">Data Charts</a>
+                            <a class="dropdown-item" href="/datatable">Data Tables</a>
+                            <a class="dropdown-item" href="/maps">Camera Map Plots</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/api">Get hAPI!</a>
+                      </div>
+                    </li>
+                    <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                  </ul>
+                </div>
+        </nav>
+
+
+        <div class="hero5">      
+          
+        </div>
+<br>
+
+
+    <div class="container">   
+        <div class="row text-center">
+     
+           <div class="col-lg-12">
+
+                 <h4 class="card-title" style="font-size:30px">Development Method</h1>
+                 <p class="card-text" style="font-size:20px">This app is built with data captured from <a href="https://opendata.dc.gov/"> the Government of the District of Columbia -- DC Open Data.</a></p>
+                 <p class="card-text" style="font-size:20px">Approximately eight datasets were captured through a variety of methods including API calls, CSV downloads, and GeoJSON calls.  The data sets were stored in a combination
+                 of SQLite and CSV files, then normalized, distilled and cleaned. The cleaned data files were then processed into visualizations using the following technologies before being published to Heroku. </p>
+                 <p class="card-text" style="font-size:20px">A Google Docs-based Requirements document and various checklists were used to manage the process, and all code was stored in GitHub for easy, collaborative access.</a></p>
+     
+    
+           </div>
+        </div> 
+           <hr>
+     
+        <div class="container text-center">   </div>
+     
+        <div class="row text-center">
+     
+           <div class="col-lg-4 col-md-4 mb-4">
+             <div class="card h-100">
+               <img class="card-img-top" src="static/images/sqlite.jpg" data-toggle="modal" data-target="#modal" alt="SQLite Logo" height = "200" width = "225">
+               <div class="card-body">
+                 <h4 class="card-title">SQLite</h4>
+                 <p class="card-text">SQLite is a relational database management system.</p>
+                 <p class="card-text">This project uses SQLite to build the user-searchable PSA/Camera table.  SQLite is also the source for the json-based API service.</p>
+     
+               </div>
+
+             </div>
+           </div>
+     
+              <div class="col-lg-4 col-md-4 mb-4">
+                   <div class="card h-100">
+                     <img class="card-img-top" src="static/images/flask.JPG" data-toggle="modal" data-target="#modal" alt="FLask logo" height = "200" width = "225">
+                     <div class="card-body">
+                       <h4 class="card-title">Python and Flask</h4>
+                       <p class="card-text">Python is a programming language frequently used for data analysis. Flask is a  micro web framework. </p>
+                       <p class="card-text">Together they can power dynamic, interactive, data-driven websites.</p>
+     
+                     </div>
+ 
+                   </div>
+           </div>
+     
+           <div class="col-lg-4 col-md-4 mb-4">
+             <div class="card h-100">
+               <img class="card-img-top" src="static/images/leaflet.png" data-toggle="modal" data-target="#modal" alt="Leaflet logo" height = "200" width = "225">
+               <div class="card-body">
+                 <h4 class="card-title">Leaflet</h4>
+                 <p class="card-text">Leaflet.js is the leading JavaScript library for mobile-friendly, responsive maps.</p>
+                 <p class="card-text">This project uses D3 for the dynamic map.</p>
+     
+               </div>
+ 
+             </div>
+           </div>
+     
+     
+     
+     
+        <div class="row text-center">
+     
+           <div class="col-lg-4 col-md-4 mb-4">
+             <div class="card h-100">
+               <img class="card-img-top" src="static/images/d3.png" data-toggle="modal" data-target="#modal1" alt="D3 Logo" height = "200" width = "225">
+               <div class="card-body">
+                 <h4 class="card-title">D3</h4>
+                 <p class="card-text">D3.js is a JavaScript library for producing dynamic, interactive data visualizations in web browsers.</p>
+                 <p class="card-text">This project uses D3 for the dynamic map and the interactive stack chart.</p>
+     
+               </div>
+ 
+             </div>
+           </div>
+     
+              <div class="col-lg-4 col-md-4 mb-4">
+                   <div class="card h-100">
+                     <img class="card-img-top" src="static/images/slick.JPG" data-toggle="modal" data-target="#modal1" alt="Slick logo" height = "200" width = "225">
+                     <div class="card-body">
+                       <h4 class="card-title">Slick.js</h4>
+                       <p class="card-text">Slick.js is a JavaScript library for producing smooth-scrolling image carousels.</p>
+                       <p class="card-text">It was used to build the carousel on the main landing page. It's lightweight, fast and easy to implement.</p>
+     
+                     </div>
+ 
+                   </div>
+           </div>
+     
+           <div class="col-lg-4 col-md-4 mb-4">
+             <div class="card h-100">
+               <img class="card-img-top" src="static/images/bootstrap.png" data-toggle="modal" data-target="#modal1" alt="Bootstrap logo" height = "200" width = "225">
+               <div class="card-body">
+                 <h4 class="card-title">Bootstrap</h4>
+                 <p class="card-text">Bootstrap is a framework for developing responsive, mobile-first websites.</p>
+                 <p class="card-text">This project uses Bootstrap for layout, navigation, and style.</p>
+     
+               </div>
+
+             </div>
+           </div>
+
+        </div> 
+    </div>
+
+</div>     
+     
+     
+     
+     
+     
+     
+     
+       <br>
+     
+     
+     
+     
+     <footer class="jumbotron text-center" id="footer">
+     
+         <p>© Copyright Team GELCAP, 2019</p>
+         <p></p>
+         <p><i><a href="https://github.com/leer2022/glowing-gelcap"><i class="fa fa-github fa-2x"></i></a></p>
+     
+     
+     </footer>
+     
+     </body>
+     
+     </html>
+     
