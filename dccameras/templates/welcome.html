@@ -89,9 +89,7 @@
 		        <div>
               <a href="/datatable"><img src="static/images/datatables.png">Search the Data Tables</a>
 		       </div>
-		       <div>
-              <a href="https://flask.palletsprojects.com/en/1.1.x/"><img src="static/images/flask.jpg"></a>
-		       </div>
+
 		       <div>
               <a href="http://opendata.dc.gov/"><img src="static/images/dcgov_logo.jpg">Visit DC Open Data</a>
 		       </div>
@@ -134,6 +132,9 @@
       dots: true,
       infinite: true,
       variableWidth: true
+    });
+     $('.single-item').slick({
+	arrows: true
     });
     $(".lazy").slick({
       lazyLoad: 'ondemand', // ondemand progressive anticipated
