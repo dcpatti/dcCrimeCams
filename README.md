@@ -6,3 +6,6 @@ Project uses D3.js, SQLite, Flask and Slick, and is deployed to Heroku.
 
 
 live site:  https://dccrimecams.herokuapp.com/welcome
+
+
+![image](https://github.com/dcpatti/dcCrimeCams/blob/master/DCThumbnail.JPG)
