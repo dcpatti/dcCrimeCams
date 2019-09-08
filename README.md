@@ -10,7 +10,7 @@ Visualizations include:
 * Interactive D3.js and Leaflet.js-based map comparing the crime rates to the proliferance of the private cameras
 * Searchable, sortable data table of per-district camera spend and counts
 
- Full live site, hosted on Heroku:  https://dccrimecams.herokuapp.com/welcome
+ Visit the full live site, hosted on Heroku  https://dccrimecams.herokuapp.com/welcome.
 
 
 ![image](https://github.com/dcpatti/dcCrimeCams/blob/master/DCThumbnail.JPG)
